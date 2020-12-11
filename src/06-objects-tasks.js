@@ -112,33 +112,85 @@ function fromJSON(proto, json) {
  *  For more examples see unit tests.
  */
 
+/* # - 1 el - 2 attr - 3 pseudo - 4 */
+
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+
+  element(value) {
+    const id = 6;
+    this.checkError(id);
+    const builder = Object.create(cssSelectorBuilder);
+    builder.idx = id;
+    builder.total = `${this.total ? this.total : ''}${value}`;
+    return builder;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    const id = 5;
+    this.checkError(id);
+    const builder = Object.create(cssSelectorBuilder);
+    builder.idx = id;
+    builder.total = `${this.total ? this.total : ''}#${value}`;
+    return builder;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    const id = 4;
+    this.checkError(id);
+    const builder = Object.create(cssSelectorBuilder);
+    builder.idx = id;
+    builder.total = `${this.total ? this.total : ''}.${value}`;
+    return builder;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    const id = 3;
+    this.checkError(id);
+    const builder = Object.create(cssSelectorBuilder);
+    builder.idx = id;
+    builder.total = `${this.total ? this.total : ''}[${value}]`;
+    return builder;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    const id = 2;
+    this.checkError(id);
+    const builder = Object.create(cssSelectorBuilder);
+    builder.idx = id;
+    builder.total = `${this.total ? this.total : ''}:${value}`;
+    return builder;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    const id = 1;
+    this.checkError(id);
+    const builder = Object.create(cssSelectorBuilder);
+    builder.idx = id;
+    builder.total = `${this.total ? this.total : ''}::${value}`;
+    return builder;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    const builder = Object.create(cssSelectorBuilder);
+    const first = selector1.total;
+    const second = selector2.total;
+    builder.total = `${first} ${combinator} ${second}`;
+    return builder;
+  },
+
+  stringify() {
+    return this.total;
+  },
+
+  checkError(id) {
+    const currentId = this.idx;
+    const configIds = [1, 5, 6];
+    if (id > currentId) {
+      throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+    }
+    if (currentId === id && configIds.includes(id)) {
+      throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    }
   },
 };
 
