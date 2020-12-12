@@ -292,23 +292,8 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
 */
 
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
-  /* let newArr = [];
-  const recurs = (idx, length) => {
-    let iteration = idx;
-    const item = arr[iteration];
-    const currArr = Array(iteration + 1);
-    currArr.fill(item);
-    newArr = newArr.concat(currArr);
-    iteration += 1;
-    if (iteration === length) {
-      return true;
-    }
-    return recurs(iteration, length);
-  };
-  // recurs(0, arr.length);
-  // return newArr; */
+function propagateItemsByPositionIndex(arr) {
+  return arr.reduce((acc, item, index) => [...acc].concat(Array(index + 1).fill(item)), []);
 }
 
 

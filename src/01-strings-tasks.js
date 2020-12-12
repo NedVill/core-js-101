@@ -209,28 +209,27 @@ function getRectangleString(width, height) {
     let str = '';
     if (counter === 1) {
       str = '─'.repeat(width - 2);
-      str = `┌${str}┐`;
+      str = `┌${str}┐\n`;
       counter += 1;
       arr.push(str);
       return recurs();
     }
     if (counter !== height && counter > 1) {
       str = ' '.repeat(width - 2);
-      str = `│${str}│`;
+      str = `│${str}│\n`;
       counter += 1;
       arr.push(str);
       return recurs();
     }
     if (counter === height) {
       str = '─'.repeat(width - 2);
-      str = `└${str}┘`;
+      str = `└${str}┘\n`;
       arr.push(str);
     }
-    return arr.join('\n');
+    return arr.join('');
   };
   return recurs();
 }
-
 
 /**
  * Encode specified string with ROT13 cipher
